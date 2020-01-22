@@ -9,18 +9,18 @@
 <style type="text/scss">
   .btn-container {
     margin-top: 30px;
-  }
-  button {
-    color: white;
-    background-color: palevioletred;
-    border: 2px solid mediumvioletred;
-    border-radius: 4px;
-    padding: 8px 15px;
-    cursor: pointer;
-    transition: box-shadow 300ms;
-  }
-  button:hover {
-    box-shadow: 0 0 10px 5px mediumvioletred;
+    button {
+      color: white;
+      background-color: palevioletred;
+      border: 2px solid mediumvioletred;
+      border-radius: 4px;
+      padding: 8px 15px;
+      cursor: pointer;
+      transition: box-shadow 300ms;
+      &:hover {
+        box-shadow: 0 0 10px 5px mediumvioletred;
+      }
+    }
   }
 </style>
 

@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const sveltePreprocess = require("svelte-preprocess");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const path = require("path");
 
@@ -29,6 +30,7 @@ module.exports = {
         use: {
           loader: "svelte-loader",
           options: {
+            preprocess: sveltePreprocess(),
             emitCss: true,
             hotReload: true
           }
