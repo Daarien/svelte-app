@@ -23,18 +23,42 @@ module.exports = {
     filename: prod ? "[name].[hash].js" : "[name].js",
     chunkFilename: "[name].[id].js"
   },
+  optimization: {
+    minimize: false
+  },
   module: {
     rules: [
       {
-        test: /\.svelte$/,
+        test: /\.m?js$/,
+        include: [/svelte/],
         use: {
-          loader: "svelte-loader",
+          loader: "babel-loader",
           options: {
-            preprocess: sveltePreprocess(),
-            emitCss: true,
-            hotReload: true
+            presets: ["@babel/preset-env"],
+            plugins: ["@babel/plugin-proposal-object-rest-spread"]
           }
         }
+      },
+      {
+        test: /\.svelte$/,
+        include: /src|node_modules[\\/]svelte-?/,
+        use: [
+          {
+            loader: "babel-loader",
+            options: {
+              presets: ["@babel/preset-env"],
+              plugins: ["@babel/plugin-proposal-object-rest-spread"]
+            }
+          },
+          {
+            loader: "svelte-loader",
+            options: {
+              preprocess: sveltePreprocess(),
+              emitCss: true,
+              hotReload: true
+            }
+          }
+        ]
       },
       {
         test: /\.(sa|sc|c)ss$/,
@@ -54,5 +78,10 @@ module.exports = {
       template: "public/index.html"
     })
   ],
-  devtool: prod ? false : "source-map"
+  devtool: prod ? "source-map" : "inline-source-map",
+  devServer: {
+    port: 4000,
+    open: true,
+    historyApiFallback: true
+  }
 };
