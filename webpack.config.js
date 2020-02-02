@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const sveltePreprocess = require("svelte-preprocess");
+const TerserPlugin = require("terser-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const path = require("path");
 
@@ -20,35 +21,21 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: prod ? "[name].[hash].js" : "[name].js",
-    chunkFilename: "[name].[id].js"
-  },
-  optimization: {
-    minimize: false
+    filename: prod ? "[name].[hash].js" : "[name].js"
   },
   module: {
     rules: [
       {
         test: /\.m?js$/,
-        include: [/svelte/],
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: ["@babel/preset-env"],
-            plugins: ["@babel/plugin-proposal-object-rest-spread"]
-          }
-        }
+        exclude: /core-js/,
+        loader: "babel-loader"
       },
       {
         test: /\.svelte$/,
-        include: /src|node_modules[\\/]svelte-?/,
+        include: /src|svelte/,
         use: [
           {
-            loader: "babel-loader",
-            options: {
-              presets: ["@babel/preset-env"],
-              plugins: ["@babel/plugin-proposal-object-rest-spread"]
-            }
+            loader: "babel-loader"
           },
           {
             loader: "svelte-loader",
@@ -75,7 +62,8 @@ module.exports = {
       filename: "[name].[hash].css"
     }),
     new HtmlWebpackPlugin({
-      template: "public/index.html"
+      template: "public/index.html",
+      favicon: "public/favicon.png"
     })
   ],
   devtool: prod ? "source-map" : "inline-source-map",
@@ -83,5 +71,44 @@ module.exports = {
     port: 4000,
     open: true,
     historyApiFallback: true
+  },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "vendors",
+          chunks: "all"
+        }
+      }
+    },
+    minimize: prod,
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          parse: {
+            ecma: 8
+          },
+          compress: {
+            ecma: 5,
+            warnings: false,
+            comparisons: false,
+            inline: 2
+          },
+          mangle: {
+            safari10: true
+          },
+          // Added for profiling in devtools
+          keep_classnames: true,
+          keep_fnames: true,
+          output: {
+            ecma: 5,
+            comments: false,
+            ascii_only: true
+          }
+        },
+        sourceMap: true
+      })
+    ]
   }
 };

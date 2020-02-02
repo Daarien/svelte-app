@@ -1,11 +1,15 @@
 <script>
   import { Link } from "yrv";
-  export let router = {};
+  import { checkDonkey } from "../funx.js";
 
-  console.log("router props", router);
+  const ie11 = checkDonkey();
 </script>
 
 <h1>About page</h1>
 <p>
-  <Link href="/">back to main page</Link>
+  {#if ie11}
+    <a href="/">back to main page</a>
+  {:else}
+    <Link href="/">back to main page</Link>
+  {/if}
 </p>

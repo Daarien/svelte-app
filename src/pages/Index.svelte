@@ -1,8 +1,15 @@
 <script>
   import { navigateTo } from "yrv";
+  import { checkDonkey } from "../funx.js";
+
+  const ie11 = checkDonkey();
 
   function handleBtnClick() {
-    navigateTo("/about");
+    if (ie11) {
+      window.location.assign("/about");
+    } else {
+      navigateTo("/about");
+    }
   }
 </script>
 

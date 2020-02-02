@@ -27,6 +27,7 @@
 </style>
 
 <div class="root">
+  <!-- <Index /> -->
   <Router>
     <Route exact path="/" component={Index} />
     <Route path="/about" component={About} />
