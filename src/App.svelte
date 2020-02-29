@@ -2,9 +2,10 @@
   import { Router, Route, Link } from "yrv";
   import Index from "./pages/Index.svelte";
   import About from "./pages/About.svelte";
+  import PageNotFound from "./pages/NotFound.svelte";
 </script>
 
-<style>
+<style type="text/scss">
   .root {
     text-align: center;
     padding: 1em;
@@ -27,12 +28,12 @@
 </style>
 
 <div class="root">
-  <!-- <Index /> -->
   <Router>
     <Route exact path="/" component={Index} />
-    <Route path="/about" component={About} />
+    <Route exact path="/about" component={About} />
+    <Route path="/about/:page" component={About} />
     <Route fallback>
-      <h1>404 Not Found</h1>
+      <PageNotFound />
     </Route>
   </Router>
 </div>
