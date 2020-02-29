@@ -1,0 +1,9 @@
+{
+  "tabWidth": 2,
+  "printWidth": 110,
+  "trailingComma": "es5",
+  "svelteSortOrder": "scripts-markup-styles",
+  "svelteStrictMode": true,
+  "svelteBracketNewLine": true,
+  "svelteAllowShorthand": true
+}

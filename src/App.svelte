@@ -31,7 +31,7 @@
   <Router>
     <Route exact path="/" component={Index} />
     <Route exact path="/about" component={About} />
-    <Route path="/about/:page" component={About} />
+    <Route exact path="/about/:page" component={About} />
     <Route fallback>
       <PageNotFound />
     </Route>
