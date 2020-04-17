@@ -1,25 +1,21 @@
 <script>
-  import Link from "../components/Link.svelte";
+  import { Router, Route, Link, navigateTo } from "yrv";
   import { redirectTo } from "../funx.js";
 
-  export let router = {};
-  const { params } = router;
-  let x;
-  if (params && params.page) {
-    x = Number(params.page);
-    if (Number.isNaN(x)) {
-      redirectTo("/page-not-found");
-    }
+  function handleClick() {
+    navigateTo("/about");
   }
 </script>
 
-{#if params.page === undefined || !Number.isNaN(x)}
-  <h1>About page</h1>
-  <p>
-    <Link to="/">back to main page</Link>
-  </p>
-  <p>
-    <Link to="/about/1" open="{true}">go to page 1</Link>
-  </p>
-  <p>Page: {params.page}</p>
-{/if}
+<h1 on:click="{handleClick}" style="cursor:pointer;">About page</h1>
+<p>
+  <Link href="/">back to main page</Link>
+</p>
+<p>
+  <Link href="/about/1">go to 1</Link>
+</p>
+
+<Router>
+  <Route path="/">About page content</Route>
+  <Route path="/:n" let:router>{router.params.n}</Route>
+</Router>

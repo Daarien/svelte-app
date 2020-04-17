@@ -5,6 +5,16 @@
   import PageNotFound from "./pages/NotFound.svelte";
 </script>
 
+<div class="root">
+  <Router>
+    <Route exact path="/" component="{Index}" />
+    <Route path="/about" component="{About}" />
+    <Route fallback>
+      <PageNotFound />
+    </Route>
+  </Router>
+</div>
+
 <style type="text/scss">
   .root {
     text-align: center;
@@ -26,14 +36,3 @@
     }
   }
 </style>
-
-<div class="root">
-  <Router>
-    <Route exact path="/" component={Index} />
-    <Route exact path="/about" component={About} />
-    <Route exact path="/about/:page" component={About} />
-    <Route fallback>
-      <PageNotFound />
-    </Route>
-  </Router>
-</div>
